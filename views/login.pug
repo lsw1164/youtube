@@ -1,0 +1,10 @@
+extends layouts/main
+
+block content
+    .form_container
+        form(action="/login", method="post")
+            input(type="email", name="email", placeHolder="Email")
+            input(type="password", name="password", placeHolder="Password")
+            input(type="submit", value="Log In")
+        include partials/socialLogin
+        
