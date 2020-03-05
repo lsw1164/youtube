@@ -1,7 +1,13 @@
 import express from "express";
 import routes from "../routes";
-import {home, search} from "../controllers/videoControllers";
-import {logout, getJoin, postJoin, getLogin, postLogin} from "../controllers/userControllers";
+import { home, search } from "../controllers/videoControllers";
+import {
+  logout,
+  getJoin,
+  postJoin,
+  getLogin,
+  postLogin
+} from "../controllers/userControllers";
 
 const globalRouter = express.Router();
 
