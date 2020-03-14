@@ -17,5 +17,20 @@ passport.use(
   )
 );
 
+/*
+passport.serializeUser((user, done) => {
+  console.log("user : " + user);
+  console.log("done : " + done);
+  return done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  console.log("user : " + user);
+  console.log("done : " + done);
+  return done(null, user);
+});
+*/
+
+//If the Property "email" in user is null, I can't serializeUser it
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
