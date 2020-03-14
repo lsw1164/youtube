@@ -64,10 +64,6 @@ export const githubLoginCallback = async (_, __, profile, cb) => {
   } catch (error) {
     return cb(error);
   }
-
-  console.log(
-    `accessToken : ${accessToken}, refreshToken : ${refreshToken}, profile : ${profile}, cb : ${cb}`
-  );
 };
 
 export const postGithubLogin = (req, res) => {
@@ -78,9 +74,23 @@ export const logout = (req, res) => {
   req.logout();
   res.redirect(routes.home);
 };
+
+export const getMe = (req, res) => {
+  console.log(req.user);
+  res.render("userDetail", { pageTitle: "UserDetail", user: req.user });
+};
 export const users = (req, res) => res.render("users", { pageTitle: "Users" });
-export const userDetail = (req, res) =>
-  res.render("userDetail", { pageTitle: "UserDetail" });
+export const userDetail = async (req, res) => {
+  const {
+    params: { id }
+  } = req;
+  try {
+    const user = await User.findById(id);
+    res.render("userDetail", { pageTitle: "User Detail", user });
+  } catch (error) {
+    res.redirect(routes.home);
+  }
+};
 export const editProfile = (req, res) =>
   res.render("editProfile", { pageTitle: "EditProfile" });
 export const changePassword = (req, res) =>
