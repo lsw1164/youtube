@@ -28,8 +28,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
-console.log(process.env.COOKIE_SECRET);
-
 app.use(
   session({
     secret: process.env.COOKIE_SECRET,
