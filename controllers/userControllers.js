@@ -46,7 +46,6 @@ export const githubLoginCallback = async (_, __, profile, cb) => {
 
   try {
     const user = await User.findOne({ email });
-    console.log(user);
     if (user) {
       user.githubId = id;
       user.save();
@@ -75,7 +74,6 @@ export const facebookLoginCallback = async (_, __, profile, cb) => {
   } = profile;
   try {
     const user = await User.findOne({ email });
-    console.log(user);
     if (user) {
       user.facebookId = id;
       user.avatarUrl = `https://graph.facebook.com/${id}/picture?type=large`;
@@ -113,7 +111,6 @@ export const userDetail = async (req, res) => {
   } = req;
   try {
     const user = await User.findById(id).populate("videos");
-    console.log(user);
     res.render("userDetail", { pageTitle: "User Detail", user });
   } catch (error) {
     res.redirect(routes.home);
