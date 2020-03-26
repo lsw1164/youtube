@@ -111,3 +111,8 @@ package-lock.json
 static
 
 uploads
+
+.DS_Store
+*.swp
+*.swo
+build

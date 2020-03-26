@@ -6,10 +6,7 @@
   "author": "lsw1164",
   "license": "ISC",
   "dependencies": {
-    "@babel/core": "^7.8.4",
-    "@babel/node": "^7.8.4",
     "@babel/polyfill": "^7.8.7",
-    "@babel/preset-env": "^7.8.4",
     "autoprefixer": "^9.7.4",
     "axios": "^0.19.2",
     "babel-loader": "^8.0.6",
@@ -40,11 +37,19 @@
     "webpack-cli": "^3.3.11"
   },
   "scripts": {
-    "dev:server": "nodemon --exec babel-node init.js --delay 2 --ignore '.scss' --ignore 'static' ",
-    "dev:assets": "webpack --mode=development -w",
-    "build:assets": "webpack --mode=production"
+    "dev:server": "nodemon --exec babel-node src/init.js --delay 2 --ignore '.scss' --ignore 'src/static' ",
+    "dev:assets": "cd src && webpack --mode=development -w",
+    "build:server": "npx babel src --out-dir build --ignore 'src/static' --ignore 'src/assets' --ignore 'src/webpack.config.js'",
+    "build:assets": "cd src && webpack --mode=production",
+    "prebuild": "echo 'run prebuild' && rm -rf build",
+    "build": "npm run build:server && npm run build:assets",
+    "postbuild": "echo 'run postbuild' && cp -R src/static build && cp -R src/views build"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.9.0",
     "eslint": "^6.8.0",
     "eslint-plugin-prettier": "^3.1.2",
     "nodemon": "^2.0.2",
