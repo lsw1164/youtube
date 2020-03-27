@@ -39,7 +39,7 @@
   "scripts": {
     "dev:server": "nodemon --exec babel-node src/init.js --delay 2 --ignore '.scss' --ignore 'src/static' ",
     "dev:assets": "cd src && webpack --mode=development -w",
-    "build:server": "npx babel src --out-dir build --ignore 'src/static' --ignore 'src/assets' --ignore 'src/webpack.config.js'",
+    "build:server": "babel src --out-dir build --ignore 'src/static' --ignore 'src/assets' --ignore 'src/webpack.config.js'",
     "build:assets": "cd src && webpack --mode=production",
     "prebuild": "echo 'run prebuild' && rm -rf build",
     "build": "npm run build:server && npm run build:assets",
