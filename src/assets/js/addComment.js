@@ -7,10 +7,32 @@ const increaseNumber = () => {
     commentNumber.innerHTML = parseInt(commentNumber.innerHTML, 10) + 1;
 };
 
+const decreaseNumber = () => {
+    let num = parseInt(commentNumber.innerHTML, 10) - 1;
+    num = num >= 0 ? num : 0;
+    commentNumber.innerHTML =  num;
+};
+
+const deleteCommnet = commentElem => {
+    if (commentList.hasChildNodes()) {
+        commentList.removeChild(commentElem);
+        decreaseNumber();
+    }
+}
+
+const onClickDeleteCommentBtn = (event) => {
+    const comment = event.target.parentNode.lastChild;
+    sendDeleteComment(event.target.parentNode, comment.innerText);
+}
+
 const addComment = comment => {
     const li = document.createElement("li");
     const span = document.createElement("span");
+    const closeBtn = document.createElement("button");
+    closeBtn.innerHTML="Delete comment";
+    closeBtn.addEventListener("click", onClickDeleteCommentBtn);
     span.innerHTML = comment;
+    li.appendChild(closeBtn);
     li.appendChild(span);
     commentList.prepend(li);
     increaseNumber();
@@ -30,6 +52,20 @@ const sendComment = async comment => {
     }
 };
 
+const sendDeleteComment = async (commentElem, comment) => {
+    const videoId = window.location.href.split("/videos/")[1];
+    const response = await axios({
+        url: `/api/${videoId}/delcomment`,
+        method: "POST",
+        data: {
+            comment
+        }
+    });
+    if (response.status === 200) {
+        deleteCommnet(commentElem);
+    }
+};
+
 const handleSubmit = event => {
     event.preventDefault();
     const commentInput = addCommentForm.querySelector("input");
@@ -40,6 +76,11 @@ const handleSubmit = event => {
 
 function init() {
     addCommentForm.addEventListener("submit", handleSubmit);
+    let children = [...commentList.children];
+    children.forEach(comment => {
+        const btn = comment.firstChild;
+        btn.addEventListener("click", onClickDeleteCommentBtn);
+    });
 }
 
 if (addCommentForm) {

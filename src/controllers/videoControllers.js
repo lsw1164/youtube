@@ -1,6 +1,7 @@
 import routes from "../routes";
 import Video from "../models/Video";
 import Comment from "../models/Comment";
+import { SchemaType } from "mongoose";
 
 export const home = async (req, res) => {
   try {
@@ -126,7 +127,6 @@ export const postRegisterView = async (req, res) => {
 };
 
 // Add Comment
-
 export const postAddComment = async (req, res) => {
   const {
     params: { id },
@@ -141,6 +141,35 @@ export const postAddComment = async (req, res) => {
     });
     video.comments.push(newComment.id);
     video.save();
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+  } finally {
+    res.end();
+  }
+};
+
+// Delete Comment
+export const postDeleteComment = async (req, res) => {
+  const {
+    params: { id },
+    body: { comment },
+    user
+  } = req;
+  console.log(comment);
+  try {
+    const video = await Video.findById(id);
+    for (let i = 0; i < video.comments.length; i++) {
+      let comId = video.comments[i];
+      let com = await Comment.findById(comId)
+        .populate("creator");
+      if(!com) continue;
+      if (com.text != comment) continue; 
+      Comment.remove(comId);
+      video.comments.splice(i, 1);
+      video.save();      
+      break;
+    }
   } catch (error) {
     console.log(error);
     res.status(400);
