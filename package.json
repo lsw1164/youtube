@@ -46,7 +46,7 @@
     "build": "npm run build:server && npm run build:assets",
     "postbuild": "echo 'run postbuild' && cp -R src/static build && cp -R src/views build",
     "prestart": "npm run build",
-    "start" : "node build/init.js"
+    "start" : "PRODUCTION=true node build/init.js"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
